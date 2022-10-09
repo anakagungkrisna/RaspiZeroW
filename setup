@@ -1,0 +1,28 @@
+This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot starting from zero. 
+1. Download the Pi Imager from the link below, choose the Raspberry Pi OS lite 32 bit version and the SD card, and burn it
+	https://www.raspberrypi.com/software/
+2. First bootup will ask for username and sudo password. create as pleased. 
+	username	: krisna
+	pass		: gladiatosmini
+3. connect to the internet. For this, the step-by-step guidance is from the link below.
+	https://www.linuxbabe.com/command-line/ubuntu-server-16-04-wifi-wpa-supplicant
+   To automatically connect to wifi when boot up, follow the step below:
+	a. Create an .sh script called startup.sh in /home/user/startup.sh
+	b. Fill in by the command below:
+		#!/bin/bash
+		sudo systemctl stop NetworkManager
+		sudo ifconfig wlan0 up
+		wpa_passphrase "Krisna" ibutuden69 | sudo tee /etc/wpa_supplicant.conf
+		sudo killall wpa_supplicant
+		sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
+		sudo dhclient wlan0
+	c. make it executables by running: chmod +x /home/krisna/startup.sh
+	d. set a crontab for it by the command: crontab -e which will edit the script using nano
+	   insert the command: @reboot /home/user/startup.sh   
+   DONE!
+   
+4. Download git: 
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt install git-all 
+
