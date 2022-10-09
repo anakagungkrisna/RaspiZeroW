@@ -19,10 +19,20 @@ This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot sta
 	c. make it executables by running: chmod +x /home/krisna/startup.sh
 	d. set a crontab for it by the command: crontab -e which will edit the script using nano
 	   insert the command: @reboot /home/user/startup.sh   
+   You can find the startup.sh script in the Setup folder
    DONE!
    
 4. Download git: 
 	sudo apt-get update
 	sudo apt-get upgrade
 	sudo apt install git-all 
+   Note: github does not support email password authentication anymore. Instead it uses Personal Access Token (PAT)
+   To generate one: 
+        a. in the upper right corner, click your profile photo, then click settings
+        b. In the left sidebar, click developer settings
+        c. In the left sidebar, click Personal Access Token
+        d. Click generate new token
+        e. give your token a descriptive name
+   NOTE: the PAT can only be seen once! so make sure you copy and save it somewhere in your local folder!
+
 
