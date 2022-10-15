@@ -1,21 +1,18 @@
 This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot starting from zero. 
 1. Download the Pi Imager from the link below, choose the Raspberry Pi OS Legacy (Buster) lite 32 bit version and 
-   the SD card, and burn it. Raspbian Buster is more stable that Raspbian Bullseye
+   the SD card, and burn it. Raspbian buster is more stable for ROS that Raspbian Bullseye. 
 	https://www.raspberrypi.com/software/
-   To check wether your Raspbian is buster, use command cat /etc/os-release
-
-2. First bootup will ask for username and sudo password. Below is the default username and passwort. 
+2. First bootup will ask for username and sudo password. Below is the initial username and password. 
 	username	: pi
 	pass		: raspberry
+3. Changing the username and hostname
+	For changing the username, follow link: 
 
-3. Change the default username, password, and hostname.
-	For username: https://thepihut.com/blogs/raspberry-pi-tutorials/how-to-change-the-default-account-username-and-password
-	For hostname: https://www.cyberciti.biz/faq/ubuntu-change-hostname-command/
 
 4. connect to the internet. For this, the step-by-step guidance is from the link below.
 	https://www.linuxbabe.com/command-line/ubuntu-server-16-04-wifi-wpa-supplicant
    To automatically connect to wifi when boot up, follow the step below:
-	a. Create an .sh script called startup.sh in /home/user/startup.sh
+	a. Create an .sh script called startup.sh in /home/(your_username)/startup.sh
 	b. Fill in by the command below:
 		#!/bin/bash
 		sudo systemctl stop NetworkManager
@@ -25,14 +22,14 @@ This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot sta
 		sudo killall wpa_supplicant
 		sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
 		sudo dhclient wlan0
-	c. make it executables by running: chmod +x /home/krisna/startup.sh
+	c. make it executables by running: chmod +x /home/(your_username)/startup.sh
 	d. set a crontab for it by the command: crontab -e which will edit the script using nano
 	   insert the command: @reboot /home/user/startup.sh
-	e. sometimes the crontab -e does not work. use sudo crontab -e and add the @reboot command as well   
+	e. sometimes the crontab -e does not work. use sudo crontab -e and add the command @reboot as well.   
    You can find the startup.sh script in the Setup folder
    DONE!
    
-5. Download git: 
+4. Download git: 
 	sudo apt-get update
 	sudo apt-get upgrade
 	sudo apt install git-all 
@@ -45,7 +42,4 @@ This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot sta
         e. give your token a descriptive name
    NOTE: the PAT can only be seen once! so make sure you copy and save it somewhere in your local folder!
 
-6. Download ROS melodic:
-	Follow the steps on: https://gist.github.com/Tiryoh/76be0ac467c09667ca51b5f8d9f4b3bc
-	From the command, skip the set -eu command
-	After installation, run source /opt/ros/melodic/setup.bash
+
