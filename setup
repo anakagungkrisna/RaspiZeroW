@@ -49,3 +49,41 @@ This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot sta
 	Follow the steps on: https://gist.github.com/Tiryoh/76be0ac467c09667ca51b5f8d9f4b3bc
 	From the command, skip the set -eu command
 	After installation, run source /opt/ros/melodic/setup.bash
+
+7. Download pip3:
+	sudo apt-get install python3-pip
+
+   Download pip:
+	curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
+
+8. Several packages needed for ROS:
+	pip install pycryptodome (for rostopic list)
+
+
+9. Working with camera
+	official documentation:
+	 https://www.raspberrypi.com/documentation/accessories/camera.html#getting-started
+
+	1. perform update: sudo apt-get update
+	2. Download library: sudo apt install libcamera-apps-lite
+	3. check the /boot/config.txt
+	   it needs to have either:
+		dtoverlay=vc4-fkms-v3d or dtoverlay=vc4-kms-v3d
+	4. enable camera (default is disable)
+		sudo raspi-config
+		go to interface option -> camera -> enable
+	5. By now, you should be ready to test your camera. run
+		raspistill -o cam.jpg
+	   the command will take a picture and save it in the directory
+	   where the command is executed. 
+
+10. Creating catkin workspace
+	1. Create directory for your catkin workspace
+		mkdir catkin_ws
+	2. create an src folder inside catkin_ws
+		mkdir src
+	3. cd to src folder and run the following command
+		catkin_init_workspace
+	4. cd to catkin_ws folder and run the following command
+		catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3 (for ROS melodic and earlier
+	5. You have created your catkin workspace. 

@@ -1,0 +1,8 @@
+prefix=/home/krisna/RaspiZeroW/catkin_ws/devel
+
+Name: testing_software
+Description: Description of testing_software
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/krisna/RaspiZeroW/catkin_ws/devel/lib 
+Requires: 

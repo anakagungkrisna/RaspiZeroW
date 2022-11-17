@@ -1,0 +1,72 @@
+#!/usr/bin/python3
+# https://pyimagesearch.com/2015/03/30/accessing-the-raspberry-pi-camera-with-opencv-and-python/
+# https://stackoverflow.com/questions/55377442/how-to-subscribe-and-publish-images-in-ros
+
+
+# import the necessary packages
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
+import cv2
+
+import rospy
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import os
+
+class PiCamera_node(object):
+	def __init__(self):
+		# initialize the camera and grab a reference to the raw camera capture
+		self.camera = PiCamera()
+		self.camera.resolution = (640,480)
+		self.camera.framerate = 32
+		self.rawCapture = PiRGBArray(self.camera, size=(640,480))
+		time.sleep(0.1) # let camera warm up
+
+		# initialize parameter
+		self.image = None
+		self.br = CvBridge()
+		self.loop_rate = rospy.Rate(60)
+		self.pub = rospy.Publisher('OV5647_cam', Image, queue_size=10)
+
+	def run(self):
+		rospy.loginfo("camera running")
+		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True):
+			self.image = frame.array #image in the form of numpy array
+			if self.image is not None:
+				self.pub.publish(self.br.cv2_to_imgmsg(self.image))
+			self.loop_rate.sleep()
+			self.rawCapture.truncate(0)
+
+			# check wether ctrl+c is pressed
+			if(rospy.is_shutdown()):
+				break
+
+if __name__ == '__main__':
+	rospy.init_node("OV5647_cam_node", anonymous=False)
+	cam_node = PiCamera_node()
+	cam_node.run()
+
+"""
+# initialize the camera and grab a reference to the raw camera capture
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+# allow the camera to warmup
+time.sleep(0.1)
+# capture frames from the camera
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# grab the raw NumPy array representing the image, then initialize the timestamp
+	# and occupied/unoccupied text
+	image = frame.array
+	# show the frame
+	# cv2.imshow("Frame", image)
+	key = cv2.waitKey(1) & 0xFF
+	# clear the stream in preparation for the next frame
+	rawCapture.truncate(0)
+	print(type(image))
+	# if the `q` key was pressed, break from the loop
+	if key == ord("q"):
+		break
+"""
