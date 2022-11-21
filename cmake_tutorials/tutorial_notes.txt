@@ -1,0 +1,42 @@
+This notes is intended to guide the reader, step by step from basic to work with cmake for managing projects with cpp
+sources:
+	1. https://www.youtube.com/watch?v=ZxVqh-r68d8&t=607s&ab_channel=RustyChoi
+	2. https://www.youtube.com/watch?v=9RJTQmK0YPI&ab_channel=TheCherno
+
+1. Basics on using cmake:
+	a. Start by creating a directory
+		mkdir cmake_tutorial
+	b. inside the directory, create an /src folder. This is where you store all your .cpp files. 
+	   create a simple hello world program. 
+	c. inside the directory again, create an /include folder. This is where you store all your header files for
+	   your project
+	d. inside the directory, create a file called CMakeLists.txt. This file is used to tell CMake the steps 
+	   needed to make the make file to compile our cpp code. fill the CMakeLists.txt file with the minimun 
+	   requirement below:
+		
+		cmake_minimum_required(VERSION 3.21)
+		project(cmake_tutorials) # your project name
+		set(CMAKE_CXX_STANDARD 14)
+		set(CMAKE_CXX_STANDARD_REQUIRED True)
+		set(CMAKE_CXX_FLAGS "-O3 -Wall)
+		file(GLOB CPP_SOURCE
+        		"${PROJECT_SOURCE_DIR}/src/*.cpp" # include all cpp files that are in src (1 level deep)
+        		"${PROJECT_SOURCE_DIR}/src/*/*.cpp" # include all cpp files that are 2 level deep in src
+		)
+		include_directories(${PROJECT_SOURCE_DIR}/include)
+		add_executable(main ${CPP_SOURCE})
+
+	   The explanation of each line can be seen from the CMakeLists.txt file. 
+
+	e. type: "cmake CMakeLists.txt" in your project directory. This will create a bunch of files.
+	   The most important one is the Makefile. MakeFile is the actual file that does the work for our project
+	   when we run "make". 
+
+
+3. Save your cmakelists.txt file 
+	Finally, to save your cmake project in git, here are the files that you can put in .gitignore:
+		CMakeCache.txt
+		CMakeFiles/
+		Makefile
+		cmake_install.cmake
+	since all the files above can be generated when using the command cmake CMakeLists.txt

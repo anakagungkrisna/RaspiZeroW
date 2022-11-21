@@ -35,9 +35,9 @@ class PiCamera_node(object):
 			self.image = frame.array #image in the form of numpy array
 			if self.image is not None:
 				self.pub.publish(self.br.cv2_to_imgmsg(self.image))
+				# print("image is published")
 			self.loop_rate.sleep()
 			self.rawCapture.truncate(0)
-
 			# check wether ctrl+c is pressed
 			if(rospy.is_shutdown()):
 				break

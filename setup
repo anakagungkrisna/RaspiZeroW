@@ -87,3 +87,13 @@ This note is intended for guiding the setup for RaspberryPiZeroW on Mr.Robot sta
 	4. cd to catkin_ws folder and run the following command
 		catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3 (for ROS melodic and earlier
 	5. You have created your catkin workspace. 
+
+11. set your ROS_MASTER_URI and ROS_IP in the ~/.bashrc file
+	command (in remote computer): 
+		export ROS_MASTER_URI=http://(YOUR_MASTER_IP):11311
+		export ROS_IP=(YOUR_SLAVE_IP)
+	command (in master computer):
+                export ROS_MASTER_URI=http://(YOUR_MASTER_IP):11311
+                export ROS_IP=(YOUR_MASTER_IP)
+	this is to avoid master contacting the wrong ip address of the remote computer
+	dont forget to source ~/.bashrc
